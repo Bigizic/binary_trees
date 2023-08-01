@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stddef.h>
+#include <stdlib.h>
 
 
 /**
@@ -21,7 +23,7 @@ struct binary_tree_s
 	struct binary_tree_s *parent;
 	struct binary_tree_s *left;
 	struct binary_tree_s *right;
-}
+};
 typedef struct binary_tree_s binary_tree_t;
 
 /* Binary Search Tree */
@@ -32,6 +34,9 @@ typedef struct binary_tree_s avl_t;
 
 /* Max Binary Heap */
 typedef struct binary_tree_s heap_t;
+
+/* print function */
+void binary_tree_print(const binary_tree_t *);
 
 
 /* function prototypes */
