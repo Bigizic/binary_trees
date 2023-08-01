@@ -22,10 +22,8 @@ int binary_tree_is_leaf(const binary_tree_t *node)
  * binary_tree_height - a function that measures the height of a binary
  * tree
  *
- * Description: height of a tree is the measured by the number of nodes
- * from the leaf node to the tree, depth is measured by nummber of edges
- * from the leaf to the tree. Normally we'd add 1 to the depth to get the
- * height
+ * Description: height of a tree is the measured by the number of edges
+ * from the leaf node to the tree
  *
  * @tree: tree to be measured
  *
