@@ -1,7 +1,7 @@
 #include "binary_trees.h"
 
 /**
- * inary_tree_leaves - a function that counts the leaves in a binary tree
+ * binary_tree_leaves - a function that counts the leaves in a binary tree
  *
  * @tree: tree to count it's leaves
  *
