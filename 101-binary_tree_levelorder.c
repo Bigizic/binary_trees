@@ -2,6 +2,8 @@
 
 /**
  * create_queue - creates a new queue
+ *
+ * Return: newly creqted queue
  */
 queue_t *create_queue()
 {
@@ -48,12 +50,16 @@ void enqueue(queue_t *queue, binary_tree_t *node)
 
 /**
  * dequeue - remove and return the head node from the queue
+ *
+ * @queue: queue to remove head node from
+ *
+ * Return: altered queue
  */
 binary_tree_t *dequeue(queue_t *queue)
 {
 	if (queue->front == NULL)
-		return NULL;
-	
+		return (NULL);
+
 	binary_tree_t *node = queue->front->node;
 	queue_node_t *temp = queue->front;
 	queue->front = queue->front->next;
@@ -106,6 +112,7 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 		return;
 
 	queue = create_queue();
+
 	if (queue == NULL)
 		return;
 
