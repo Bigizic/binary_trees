@@ -61,8 +61,11 @@ binary_tree_t *dequeue(queue_t *queue)
 		return (NULL);
 
 	binary_tree_t *node = queue->front->node;
+
 	queue_node_t *temp = queue->front;
+
 	queue->front = queue->front->next;
+
 
 	if (queue->front == NULL)
 		queue->rear = NULL;
@@ -86,8 +89,11 @@ void destroy_queue(queue_t *queue)
 	while (queue->front != NULL)
 	{
 		queue_node_t *temp = queue->front;
+
 		queue->front = queue->front->next;
+
 		free(temp);
+
 	}
 
 	free(queue);
