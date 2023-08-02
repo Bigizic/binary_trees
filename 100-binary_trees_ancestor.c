@@ -41,6 +41,6 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		}
 		current = current->parent;
 	}
-	free (first_ones);
+	free(first_ones);
 	return (NULL);
 }
