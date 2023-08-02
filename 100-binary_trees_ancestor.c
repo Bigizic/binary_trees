@@ -23,13 +23,13 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		return (NULL);
 
 	current = first;
-	while (current != NULL)
+	while (current)
 	{
 		first_ones[num_first_ones++] = (binary_tree_t *)current;
 		current = current->parent;
 	}
 	current = second;
-	while (current != NULL)
+	while (current)
 	{
 		for (i = 0; i < num_first_ones; i++)
 		{
