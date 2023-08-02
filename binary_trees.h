@@ -113,5 +113,10 @@ typedef struct queue_s
 	queue_node_t *rear;
 } queue_t;
 
+/* level order functions */
+queue_t *create_queue();
+void enqueue(queue_t *queue, binary_tree_t *node);
+binary_tree_t *dequeue(queue_t *queue);
+void destroy_queue(queue_t *queue);
 
 #endif
