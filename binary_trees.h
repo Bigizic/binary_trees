@@ -85,4 +85,33 @@ int heap_extract(heap_t **root);
 int *heap_to_sorted_array(heap_t *heap, size_t *size);
 
 
+/**
+ * queue_node_s - represents a node in the queue
+ *
+ * @node: a pointer to the binary_tree_t node, actual data to be stored
+ *
+ * @next: a pointer to the next node in the queue, allows repr of linked
+ * list type
+ */
+typedef struct queue_node_s
+{
+	 binary_tree_t *node;
+	 struct queue_node_s *next;
+} queue_node_t;
+
+
+/**
+ * queue_s - a structure that represents the queue itself, for storing
+ *
+ * @front: a pointer to the head of the queue, also first node
+ *
+ * @rear: a pointer to the tail if the queue, also last node
+ */
+typedef struct queue_s
+{
+	queue_node_t *front;
+	queue_node_t *rear;
+} queue_t;
+
+
 #endif
