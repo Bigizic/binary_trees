@@ -24,6 +24,7 @@ bst_t *bst_search(const bst_t *tree, int value)
 	{
 		if (radar != NULL)
 		{
+			/* go to left tree else go to right */
 			if (radar->n > value)
 				radar = radar->left;
 			else
