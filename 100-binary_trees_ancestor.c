@@ -14,24 +14,33 @@
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		const binary_tree_t *second)
 {
-	binary_tree_t *current = NULL;
+	binary_tree_t **first_ones = (binary_tree_t **)malloc(
+			sizeof(binary_tree_t *) * 1024);
+	const binary_tree_t *current = NULL;
+	int num_first_ones = 0, i;
 
 	if (first == NULL || second == NULL)
 		return (NULL);
 
-	current = (binary_tree_t *)second;
-	while (first)
+	current = first;
+	while (current != NULL)
 	{
-		while (current != NULL)
+		first_ones[num_first_ones++] = (binary_tree_t *)current;
+		current = current->parent;
+	}
+	current = second;
+	while (current != NULL)
+	{
+		for (i = 0; i < num_first_ones; i++)
 		{
-			if (first == second)
+			if (current == first_ones[i])
 			{
+				free(first_ones);
 				return ((binary_tree_t *)current);
 			}
-			second = second->parent;
 		}
-		second = current;
-		first = first->parent;
+		current = current->parent;
 	}
+	free(first_ones);
 	return (NULL);
 }
