@@ -13,15 +13,15 @@
 
 bst_t *array_to_bst(int *array, size_t size)
 {
-	 size_t i;
-	 bst_t *new = NULL;
+	size_t i;
+	bst_t *new = NULL;
 
-	 if (array == NULL || size == 0)
-		 return (NULL);
+	if (array == NULL || size == 0)
+		return (NULL);
 
-	 for (i = 0; i < size; i++)
-	 {
-		 bst_insert(&new, array[i]);
-	 }
-	 return (new);
+	for (i = 0; i < size; i++)
+	{
+		bst_insert(&new, array[i]);
+	}
+	return (new);
 }
