@@ -40,10 +40,18 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		first = first->parent;
 		second = second->parent;
 	}
+
 	return ((binary_tree_t *)first);
 
 }
 
+/**
+ * binary_tree_depth - gets the depth of a tree
+ *
+ * @tree: tree
+ *
+ * Return: size of depth
+ */
 size_t binary_tree_depth(const binary_tree_t *tree)
 {
 	size_t depth = 0;
