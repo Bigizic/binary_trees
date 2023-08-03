@@ -73,7 +73,7 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
  * binary_tree_is_complete - a function that checks if a binary tree
  * is complete
  *
- * @ tree: tree to check
+ * @tree: tree to check
  *
  * Return: 1 if tree is complete otherwise 0
  */
@@ -87,7 +87,7 @@ int binary_tree_is_complete(const binary_tree_t *tree)
 
 	if (binary_tree_is_full(tree))
 		return (1);
-	
+
 	left = binary_tree_height(tree->left);
 	right =  binary_tree_height(tree->right);
 
