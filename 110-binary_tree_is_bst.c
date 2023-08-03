@@ -6,6 +6,8 @@
  *
  * @tree: tree to be measured
  *
+ * @p: minimum value that can be be stored in an int data
+ *
  * Return: the size of the tree
  */
 int bst_helper(const binary_tree_t *tree, int *p)
@@ -21,7 +23,7 @@ int bst_helper(const binary_tree_t *tree, int *p)
 
 	*p = tree->n;
 
-	return bst_helper(tree->right, p);
+	return (bst_helper(tree->right, p));
 }
 
 
@@ -43,5 +45,5 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 
 	p = INT_MIN;
 
-	return bst_helper(tree, &p);
+	return (bst_helper(tree, &p));
 }
