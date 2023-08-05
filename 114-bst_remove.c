@@ -10,17 +10,13 @@
  */
 bst_t *inorder_successor(bst_t *node)
 {
-	bst_t *curr = NULL;
-
 	if (node == NULL)
 		return (NULL);
 
-	curr = node;
+	while (node && node->left != NULL)
+		node = node->left;
 
-	while (curr && curr->left != NULL)
-		curr = curr->left;
-
-	return (curr);
+	return (node);
 }
 
 /**
@@ -37,14 +33,14 @@ bst_t *inorder_successor(bst_t *node)
 
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *new_root = NULL;
+	bst_t *new_root = NULL, *successor;
 
 	if (root == NULL)
 		return (NULL);
 
-	if (value < root->n)
+	if (value <= root->n)
 		root->left = bst_remove(root->left, value);
-	else if (value > root->n)
+	else if (value >= root->n)
 		root->right = bst_remove(root->right, value);
 	else
 	{
@@ -60,10 +56,10 @@ bst_t *bst_remove(bst_t *root, int value)
 			free(root);
 			return (new_root);
 		}
-		new_root = inorder_successor(root->right);
-		root->n = new_root->n;
+		successor = inorder_successor(root->right);
+		root->n = successor->n;
 
-		root->right = bst_remove(root->right, new_root->n);
+		root->right = bst_remove(root->right, successor->n);
 	}
 	return (root);
 }
