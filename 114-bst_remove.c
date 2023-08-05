@@ -1,29 +1,6 @@
 #include "binary_trees.h"
 
 /**
- * inorder_successor - checks if the node has two children, find the
- * inorder successor
- *
- * @node: node to search
- *
- * Return: new node
- */
-bst_t *inorder_successor(bst_t *node)
-{
-	bst_t *curr;
-
-	if (node == NULL)
-		return (NULL);
-
-	curr = node;
-
-	while (curr && curr->left != NULL)
-		curr = curr->left;
-
-	return (curr);
-}
-
-/**
  * bst_remove -  a function that removes a node from a Binary Search Tree
  * given the value
  *
@@ -37,33 +14,44 @@ bst_t *inorder_successor(bst_t *node)
 
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *new_root = NULL, *successor;
+	bst_t *new_root = NULL, *succp, *succ;
 
 	if (root == NULL)
 		return (NULL);
 
-	if (value <= root->n)
-		root->left = bst_remove(root->left, value);
-	else if (value > root->n)
-		root->right = bst_remove(root->right, value);
+	if (root->n > value)
+	{ root->left = bst_remove(root->left, value);
+		return (root); }
+	else if (root->n < value)
+	{ root->right = bst_remove(root->right, value);
+		return (root); }
+	if (root->left == NULL)
+	{
+		new_root = root->right;
+		free(root);
+		return (new_root);
+	}
+	else if (root->right == NULL)
+	{
+		new_root = root->left;
+		free(root);
+		return (new_root);
+	}
 	else
 	{
-		if (root->left == NULL)
+		succp = root;
+		succ = root->right;
+		while (succ->left != NULL)
 		{
-			new_root = root->right;
-			free(root);
-			return (new_root);
+			succp = succ;
+			succ = succ->left;
 		}
-		else if (root->right == NULL)
-		{
-			new_root = root->left;
-			free(root);
-			return (new_root);
-		}
-		successor = inorder_successor(root->right);
-		root->n = successor->n;
-
-		root->right = bst_remove(root->right, successor->n);
+		if (succp != root)
+			succp->left = succ->right;
+		else
+			succp->right = succ->right;
+		root->n = succ->n;
+		free(succ);
+		return (root);
 	}
-	return (root);
 }
