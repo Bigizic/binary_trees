@@ -10,13 +10,17 @@
  */
 bst_t *inorder_successor(bst_t *node)
 {
+	bst_t *curr;
+
 	if (node == NULL)
 		return (NULL);
 
-	while (node && node->left != NULL)
-		node = node->left;
+	curr = node;
 
-	return (node);
+	while (curr && curr->left != NULL)
+		curr = curr->left;
+
+	return (curr);
 }
 
 /**
@@ -40,7 +44,7 @@ bst_t *bst_remove(bst_t *root, int value)
 
 	if (value <= root->n)
 		root->left = bst_remove(root->left, value);
-	else if (value >= root->n)
+	else if (value > root->n)
 		root->right = bst_remove(root->right, value);
 	else
 	{
