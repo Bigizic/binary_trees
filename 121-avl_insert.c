@@ -67,10 +67,10 @@ avl_t *avl_helper(avl_t **tree, avl_t *root, avl_t **node, int value)
 	}
 	else
 		return (*tree);
-	if ((*tree)->right != NULL && (*tree)->left == NULL)
-		bal = binary_treee_balance(*tree);
-	else
-		bal = binary_tree_balance(*tree);
+	/*if ((*tree)->right != NULL && (*tree)->left == NULL)*/
+		/*bal = binary_treee_balance(*tree);*/
+	/*else*/
+	bal = binary_tree_balance(*tree);
 
 	if (bal > 1 && value < (*tree)->left->n)
 		*tree = binary_tree_rotate_right(*tree);
