@@ -85,7 +85,7 @@ avl_t *avl_helper(avl_t **tree, avl_t *root, avl_t **node, int value)
 	if (bal < -1 && value < (*tree)->right->n)
 	{
 		(*tree)->right = binary_tree_rotate_right((*tree)->right);
-		*tree = binary_tree_rotate_right(*tree);
+		*tree = binary_tree_rotate_left(*tree);
 	}
 	return (*tree);
 }
