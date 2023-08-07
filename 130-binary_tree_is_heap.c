@@ -117,24 +117,44 @@ int binary_tree_is_complete(const binary_tree_t *tree)
  */
 int binary_tree_is_heap(const binary_tree_t *tree)
 {
-	int complete = 0;
-	bool left_check = true, right_check = true;
+	int complete = 0, top = -1;
+	binary_tree_t **temp = NULL, *curr = NULL;
 
 	if (tree == NULL)
-		return (1);
-
-	complete = binary_tree_is_complete(tree);
-
-	if (tree->left != NULL && tree->left->n > tree->n)
-		left_check = false;
-
-	if (tree->right != NULL && tree->right->n > tree->n)
-		right_check = false;
-
-	if (!binary_tree_is_heap(tree->left) || !binary_tree_is_heap(tree->right))
 		return (0);
 
-	if ((left_check == true && right_check == true) && complete == 1)
+	complete = binary_tree_is_complete(tree);
+	temp = malloc(sizeof(binary_tree_t));
+	if (temp == NULL)
+		return (0);
+
+	temp[++top] = (binary_tree_t *)tree;
+	while (top >= 0)
+	{
+		curr = temp[top--];
+		if (curr->right)
+		{
+			if (curr->right->n > curr->n)
+			{
+				free(temp);
+				return (0);
+			}
+			temp[++top] = curr->right;
+		}
+		if (curr->left)
+		{
+			if (curr->left->n > curr->n)
+			{
+				free(temp);
+				return (0);
+			}
+			temp[++top] = curr->left;
+		}
+	}
+
+	free(temp);
+	if (complete == 1)
 		return (1);
+
 	return (0);
 }
