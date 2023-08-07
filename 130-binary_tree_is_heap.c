@@ -1,50 +1,92 @@
 #include "binary_trees.h"
+#include <stdbool.h>
 
-int is_complete(binary_tree_t *tree);
 /**
- * binary_tree_is_heap -  a function that checks if a binary tree
- * is a valid Max Binary Heap
+ * binary_tree_is_full - a function that checks if a binary tree is full\
  *
- * @tree: tree to be checked
+ * @tree: tree to check
  *
- * Return: 1 if tree is valid MAX binary heap otherwise 0
+ * Return: 1 if tree is full otherwise 0
  */
-
-int binary_tree_is_heap(const binary_tree_t *tree)
+int binary_tree_is_full(const binary_tree_t *tree)
 {
-	int count = 0;
-	binary_tree_t *root;
-
 	if (tree == NULL)
 		return (0);
 
-	root = (binary_tree_t *)tree;
-
-	while (root)
-	{
-		count++;
-		root = root->left;
-	}
-	return ();
+	if (tree->right == NULL && tree->left == NULL)
+		return (1);
+	return (0);
 }
 
 
 /**
- * is_complete - checks if a tree is complete
+ * binary_tree_height - a function that measures the height of a binary
+ * tree
  *
- * @tree: tree to check
+ * @tree: tree to be measured
  *
- * Return: 0 or 1
+ * Return: height of tree
  */
-
-int is_complete(binary_tree_t *tree)
+size_t binary_tree_height(const binary_tree_t *tree)
 {
 	size_t left, right;
 
 	if (tree == NULL)
 		return (0);
 
-	if (binary_tree_is_full == 1)
+	right = binary_tree_height(tree->right);
+	left = binary_tree_height(tree->left);
+
+	return (1 + (left >= right ? left : right));
+}
+
+
+/**
+ * binary_tree_is_perfect - a function that checks if a binary tree
+ * is perfect
+ *
+ * @tree: pointer to tree to check
+ *
+ * Return: 1 if perfect otherwise 0
+ */
+int binary_tree_is_perfect(const binary_tree_t *tree)
+{
+	if (tree == NULL)
+		return (1);
+
+	if (binary_tree_is_full(tree))
+		return (1);
+
+	if (tree->left == NULL || tree->right == NULL)
+		return (0);
+
+	if (binary_tree_height(tree->left) == binary_tree_height(tree->right))
+	{
+		if (binary_tree_is_perfect(tree->left) &&
+				binary_tree_is_perfect(tree->right))
+			return (1);
+	}
+	return (0);
+}
+
+
+/**
+ * binary_tree_is_complete - a function that checks if a binary tree
+ * is complete
+ *
+ * @tree: tree to check
+ *
+ * Return: 1 if tree is complete otherwise 0
+ */
+
+int binary_tree_is_complete(const binary_tree_t *tree)
+{
+	size_t left, right;
+
+	if (tree == NULL)
+		return (0);
+
+	if (binary_tree_is_full(tree))
 		return (1);
 
 	left = binary_tree_height(tree->left);
@@ -65,57 +107,34 @@ int is_complete(binary_tree_t *tree)
 	return (0);
 }
 
-
 /**
- * binary_tree_is_perfect - a function that checks if a binary tree
- * is perfect
+ * binary_tree_is_heap - a function that checks if a binary tree is a
+ * valid Max Binary Heap
  *
- * @tree: pointer to tree to check
+ * @tree: pointer to the root node of the tree
  *
- * Return: 1 if perfect otherwise 0
+ * Return: 1 if binary tree is complete 0 otherwise
  */
-int binary_tree_is_perfect(const binary_tree_t *tree)
+int binary_tree_is_heap(const binary_tree_t *tree)
 {
+	int complete = 0;
+	bool left_check = true, right_check = true;
+
 	if (tree == NULL)
 		return (1);
 
-	if (binary_tree_is_full == 1)
-		return (1);
+	complete = binary_tree_is_complete(tree);
 
-	if (tree->left == NULL || tree->right == NULL)
+	if (tree->left != NULL && tree->left->n > tree->n)
+		left_check = false;
+
+	if (tree->right != NULL && tree->right->n > tree->n)
+		right_check = false;
+
+	if (!binary_tree_is_heap(tree->left) || !binary_tree_is_heap(tree->right))
 		return (0);
 
-	if (binary_tree_height(tree->left) == binary_tree_height(tree->right))
-	{
-		if (binary_tree_is_perfect(tree->left) &&
-				binary_tree_is_perfect(tree->right))
-			return (1);
-	}
+	if ((left_check == true && right_check == true) && complete == 1)
+		return (1);
 	return (0);
-}
-
-
-/**
- * binary_tree_height - a function that measures the height of a binary
- * tree
- *
- * @tree: tree to be measured
- *
- * Return: height of tree
- */
-size_t binary_tree_height(const binary_tree_t *tree)
-{
-	size_t left, right;
-
-
-	if (tree == NULL)
-		return (0);
-
-	if (tree->right == NULL && tree->left == NULL)
-		binary_tree_is_full = 1;
-
-	right = binary_tree_height(tree->right);
-	left = binary_tree_height(tree->left);
-
-	return (1 + (left >= right ? left : right));
 }
