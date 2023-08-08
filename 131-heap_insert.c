@@ -1,6 +1,35 @@
 #include "binary_trees.h"
 #include <limits.h>
 
+int left_check(const heap_t *node)
+{
+	int count = 0;
+
+	if (node == NULL)
+		return (0);
+	while (node->left != NULL)
+	{
+		count++;
+		node = node->left;
+	}
+	return (count);
+}
+
+int right_check(const heap_t *node)
+{
+	int count = 0;
+
+	if (node == NULL)
+		return (0);
+	while (node->right != NULL)
+	{
+		count++;
+		node = node->right;
+	}
+	return (count);
+}
+
+
 /**
  * heap_insert -  a function that inserts a value in a Binary Heap Tree
  *
@@ -34,14 +63,37 @@ heap_t *heap_insert(heap_t **tree, int value)
 	{
 		if (value == temp->n)
 			break;
-		else if (value < temp->left->n || value < temp->right->n)
+		else if (value < temp->left->n)
 		{
-			if (temp->left->n > temp->right->n)
+			if (temp->left->n > temp->right->n &&
+					(left_check(temp->left) == 0 &&
+					 right_check(temp->left) == 0))
+				temp = temp->left;
+			else if (temp->left->n < temp->right->n)
+			{
+				if (left_check(temp->left) != 0 &&
+						right_check(temp->left) != 0)
+				{
+					if (left_check(temp->right) != 0 &&
+							right_check(temp->right) != 0)
+					{
+						temp = temp->left->left;
+					}
+				}
+			}
+			else
+				temp = temp->right;
+		}
+		else if (value > temp->left->n)
+		{
+			if (temp->left->n > temp->right->n &&
+					(left_check(temp->left) != 0 &&
+					 right_check(temp->left) == 0))
 				temp = temp->left;
 			else
 				temp = temp->right;
 		}
-		else if (value > temp->right->n || value > temp->left->n)
+		else if (value > temp->right->n)
 		{
 			if (temp->left->n < temp->right->n)
 				temp = temp->right;
