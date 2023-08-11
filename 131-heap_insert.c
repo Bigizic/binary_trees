@@ -1,7 +1,7 @@
 #include "binary_trees.h"
-#include <limits.h>
+#include <stdbool.h>
 
-int left_check(const heap_t *node)
+int l_c(heap_t *node)
 {
 	int count = 0;
 
@@ -15,12 +15,13 @@ int left_check(const heap_t *node)
 	return (count);
 }
 
-int right_check(const heap_t *node)
+int r_c(heap_t *node)
 {
 	int count = 0;
 
 	if (node == NULL)
 		return (0);
+
 	while (node->right != NULL)
 	{
 		count++;
@@ -29,87 +30,109 @@ int right_check(const heap_t *node)
 	return (count);
 }
 
-
-/**
- * heap_insert -  a function that inserts a value in a Binary Heap Tree
- *
- * @tree: (double pointer) pointer to the root node
- *
- * @value: (int) value to be inserted
- *
- * Return: newly created node
- */
-
-heap_t *heap_insert(heap_t **tree, int value)
+heap_t *swapper(heap_t *node)
 {
-	heap_t *new, *temp;
-	int temp_value;
+	int temp;
+	heap_t *swapped;
 
-	if (tree == NULL)
+	if (node == NULL)
+		return (NULL);
+
+	swapped = node;
+	if (swapped->parent != NULL && swapped->n > swapped->parent->n)
+	{
+		temp = swapped->n;
+		swapped->n = swapped->parent->n;
+		swapped->parent->n = temp;
+		swapped = swapped->parent;
+	}
+	return (swapped);
+}
+
+
+heap_t *heap_insert(heap_t **root, int value)
+{
+	heap_t *temp, *new;
+	int temp_value, lc, rc, lrc, rrc;
+
+	if (root == NULL)
 		return (NULL);
 
 	new = binary_tree_node(NULL, value);
-	if (new == NULL)
-		return (NULL);
-	if (*tree == NULL)
+	if (*root == NULL)
 	{
-		*tree = new;
+		*root = new;
 		return (new);
 	}
 
-	temp = *tree;
-
+	temp = *root;
 	while (temp->left != NULL && temp->right != NULL)
 	{
-		if (value == temp->n)
-			break;
-		else if (value < temp->left->n)
+		lc = l_c(temp->left);
+		lrc = r_c(temp->left);
+		rc = l_c(temp->right);
+		rrc = r_c(temp->right);
+		if (value < temp->n)
 		{
-			if (temp->left->n > temp->right->n &&
-					(left_check(temp->left) == 0 &&
-					 right_check(temp->left) == 0))
-				temp = temp->left;
-			else if (temp->left->n < temp->right->n)
+			if ((lc == 0 || lc > 0) && lrc == 0)
 			{
-				if (left_check(temp->left) != 0 &&
-						right_check(temp->left) != 0)
+				temp = temp->left;
+				lc = l_c(temp);
+				lrc = r_c(temp);
+				if (lc == 0 && lrc == 0)
 				{
-					if (left_check(temp->right) != 0 &&
-							right_check(temp->right) != 0)
+					if (value < temp->n && value)
 					{
-						temp = temp->left->left;
+						temp->left = binary_tree_node(temp, value);
+						return (temp->left);
+					}
+				else if (value > temp->n && value)
+					return (swapper(temp->left));
+				}
+				else if (lc > 1 && lrc == 0)
+				{
+					if (value < temp->n)
+						temp->right = binary_tree_node(temp, value);
+					else
+						temp->left = binary_tree_node(temp, value);
+				}
+			}
+			if (lc > 0 && lrc > 0)
+			{
+				temp = temp->right;
+				rc = l_c(temp);
+				rrc = r_c(temp);
+				if (rc == 0 && rrc == 0)
+				{
+					if (value > temp->n)
+					{
+						temp->left = binary_tree_node(temp, value);
+						return (swapper(temp->left));
+					}
+					else
+					{
+						temp = binary_tree_node(temp, value);
+						return (temp->left);
+					}
+				}
+				if (rc > 0 && rrc == 0)
+				{
+					if (value > temp->n)
+					{
+						temp->right = binary_tree_node(temp, value);
+						swapper(temp->right);
 					}
 				}
 			}
-			else
-				temp = temp->right;
 		}
-		else if (value > temp->left->n)
-		{
-			if (temp->left->n > temp->right->n &&
-					(left_check(temp->left) != 0 &&
-					 right_check(temp->left) == 0))
-				temp = temp->left;
-			else
-				temp = temp->right;
-		}
-		else if (value > temp->right->n)
-		{
-			if (temp->left->n < temp->right->n)
-				temp = temp->right;
-			else
-				temp = temp->left;
-		}
-		else
-			break;
 	}
+
 	if (temp->left == NULL)
 		temp->left = new;
 	else
 		temp->right = new;
 
 	new->parent = temp;
-
 	while (new->parent && new->n > new->parent->n)
 	{
 		temp_value = new->n;
