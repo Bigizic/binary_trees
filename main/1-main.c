@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include "binary_trees.h"
 
+/* Our own functions */
+void binary_tree_print(const binary_tree_t *tree);
+void binary_tree_delete(binary_tree_t *tree);
+
 /**
  * main - Entry point
  *
@@ -9,15 +13,27 @@
  */
 int main(void)
 {
-    binary_tree_t *root;
+	avl_t *root;
+	avl_t *node;
+	int array[] = {
+		98, 110, 100
+	};
+	size_t size = sizeof(array) / sizeof(array[0]);
+	size_t i;
 
-    root = binary_tree_node(NULL, 98);
-    root->left = binary_tree_node(root, 12);
-    root->right = binary_tree_node(root, 402);
-    binary_tree_print(root);
-    printf("\n");
-    binary_tree_insert_left(root->right, 128);
-    binary_tree_insert_left(root, 54);
-    binary_tree_print(root);
-    return (0);
+	root = NULL;
+	for (i = 0; i < size; i++)
+	{
+		node = avl_insert(&root, array[i]);
+		if (node)
+			printf("Value inserted: %d\n", node->n);
+		else
+		{
+			printf("Value not inserted: %d\n", array[i]);
+		}
+	}
+
+	binary_tree_print(root);
+	binary_tree_delete(root);
+	return (0);
 }
