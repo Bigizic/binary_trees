@@ -9,51 +9,55 @@
  */
 int heap_extract(heap_t **root)
 {
-    if (root == NULL || *root == NULL)
-        return INT_MIN;
+	int temp, extracted_value;
+	heap_t *node;
 
-    int extracted_value = (*root)->n;
-    heap_t *node = *root;
+	if (root == NULL || *root == NULL)
+		return (0);
 
-    while (node->left != NULL || node->right != NULL)
-    {
-        if (node->right == NULL || node->left->n >= node->right->n)
-            node = node->left;
-        else
-            node = node->right;
-    }
+	extracted_value = (*root)->n;
+	node = *root;
 
-    (*root)->n = node->n;
+	while (node->left != NULL || node->right != NULL)
+	{
+		if (node->right == NULL || node->left->n >= node->right->n)
+			node = node->left;
+		else
+			node = node->right;
+	}
 
-    if (node->parent != NULL)
-    {
-        if (node->parent->left == node)
-            node->parent->left = NULL;
-        else
-            node->parent->right = NULL;
-    }
+	(*root)->n = node->n;
 
-    free(node);
+	if (node->parent != NULL)
+	{
+		if (node->parent->left == node)
+			node->parent->left = NULL;
+		else
+			node->parent->right = NULL;
+	}
 
-    node = *root;
-    while ((node->left != NULL && node->n < node->left->n) ||
-           (node->right != NULL && node->n < node->right->n))
-    {
-        if (node->right == NULL || node->left->n >= node->right->n)
-        {
-            int temp = node->n;
-            node->n = node->left->n;
-            node->left->n = temp;
-            node = node->left;
-        }
-        else
-        {
-            int temp = node->n;
-            node->n = node->right->n;
-            node->right->n = temp;
-            node = node->right;
-        }
-    }
+	free(node);
 
-    return (extracted_value);
+	node = *root;
+
+	while ((node->left != NULL && node->n < node->left->n) ||
+			(node->right != NULL && node->n < node->right->n))
+	{
+		if (node->right == NULL || node->left->n >= node->right->n)
+		{
+			temp = node->n;
+			node->n = node->left->n;
+			node->left->n = temp;
+			node = node->left;
+		}
+		else
+		{
+			temp = node->n;
+			node->n = node->right->n;
+			node->right->n = temp;
+			node = node->right;
+		}
+	}
+
+	return (extracted_value);
 }
