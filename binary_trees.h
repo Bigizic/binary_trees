@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-
+extern int tree_is_full;
 /**
  * struct binary_tree_s - Binary tree node
  *
