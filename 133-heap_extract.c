@@ -2,6 +2,7 @@
 
 /**
  * heap_extract - extracts the root node from a max heap
+ *
  * @root: double pointer to the root node
  *
  * Return: value of the extracted node, or INT_MIN if root is NULL
@@ -54,5 +55,5 @@ int heap_extract(heap_t **root)
         }
     }
 
-    return extracted_value;
+    return (extracted_value);
 }
