@@ -131,10 +131,11 @@ heap_t *heap_insert(heap_t **root, int value)
 			{
 				if (rc > 0 && rrc == 0)
 				{
-					temp->n = value;
 					temp = temp->right;
 					temp->right = binary_tree_node(temp, value);
-					return (temp->right);
+					swapper(temp->right);
+					return (swapper(temp));
+
 				}
 			}
 		}
@@ -155,3 +156,4 @@ heap_t *heap_insert(heap_t **root, int value)
 	}
 	return (new);
 }
+
