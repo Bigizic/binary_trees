@@ -111,17 +111,30 @@ heap_t *heap_insert(heap_t **root, int value)
 					}
 					else
 					{
-						temp = binary_tree_node(temp, value);
+						temp->left = binary_tree_node(temp, value);
 						return (temp->left);
 					}
 				}
 				if (rc > 0 && rrc == 0)
 				{
-					if (value > temp->n)
+					if (value < temp->n)
 					{
 						temp->right = binary_tree_node(temp, value);
-						swapper(temp->right);
+						return(temp->right);
 					}
+				}
+			}
+		}
+		if (value > temp->n)
+		{
+			if (lc > 0 && lrc > 0)
+			{
+				if (rc > 0 && rrc == 0)
+				{
+					temp->n = value;
+					temp = temp->right;
+					temp->right = binary_tree_node(temp, value);
+					return (temp->right);
 				}
 			}
 		}
